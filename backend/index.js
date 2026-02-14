@@ -4,7 +4,7 @@ import { Server } from "socket.io";
 import cors from "cors";
 import { db } from "./db/db.js";
 import { cells } from "./db/schema.js";
-import { eq } from "drizzle-orm";
+import { eq, and, isNull } from "drizzle-orm";
 
 const app = express();
 app.use(cors());
@@ -110,5 +110,5 @@ io.on("connection", async (socket) => {
 
 const port = process.env.PORT || 3001;
 server.listen(port, () => {
-  console.log("Server running on port ${port}");
+  console.log(`Server running on port ${port}`);
 });
