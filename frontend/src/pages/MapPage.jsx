@@ -7,8 +7,8 @@ const socket = io(import.meta.env.BACKEND_URL || "http://localhost:3001");
 
 const MapPage = () => {
   const [grid, setGrid] = useState([]);
-  const [user, setUser] = useState("User" + Math.floor(Math.random()*1000));
-  const [color] = useState("#" + Math.floor(Math.random() * 16777215).toString(16));
+  const [user, setUser] = useState("User" + Math.floor(Math.random() * 10000));
+  const [color] = useState("#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
   const [activePlayers, setActivePlayers] = useState(0);
 
   useEffect(() => {
