@@ -8,9 +8,7 @@ const socket = io("http://localhost:3001");
 const MapPage = () => {
   const [grid, setGrid] = useState([]);
   const [user, setUser] = useState("User" + Math.floor(Math.random()*1000));
-  const [color] = useState(
-    "#" + Math.floor(Math.random() * 16777215).toString(16)
-  );
+  const [color] = useState("#" + Math.floor(Math.random() * 16777215).toString(16));
   const [activePlayers, setActivePlayers] = useState(0);
 
   useEffect(() => {
@@ -21,7 +19,8 @@ const MapPage = () => {
       const sorted = [...cells].sort((a, b) => a.id - b.id);
       setGrid(sorted);
     });
-
+    
+    //cell updation listener
     socket.on("cellUpdated", (cell) => {
       console.log("Cell updated:", cell);
       setGrid((prev) => {
@@ -32,6 +31,17 @@ const MapPage = () => {
       });
     });
 
+    //Handle when cell was already claimed by someone else
+    socket.on("cellAlreadyClaimed", ({ cellId }) => {
+      console.log("⚠️ Cell already claimed:", cellId);
+    });
+
+    //Handle capture errors
+    socket.on("captureError", ({ cellId, message }) => {
+      console.error("❌ Capture error:", cellId, message);
+    });
+
+    //active count listener
     socket.on("activeCount", (count) => {
       console.log("Active count received:", count);
       setActivePlayers(count);
@@ -40,6 +50,8 @@ const MapPage = () => {
     return () => {
       socket.off("grid");
       socket.off("cellUpdated");
+      socket.off("cellAlreadyClaimed");   
+      socket.off("captureError"); 
       socket.off("activeCount");
     };
   }, []);
@@ -52,7 +64,7 @@ const MapPage = () => {
     });
   };
 
-  // Calculate top 3 users and their stats
+  //for top 3 users and their stats
   const topUsers = useMemo(() => {
     const userCounts = {};
     grid.forEach((cell) => {
