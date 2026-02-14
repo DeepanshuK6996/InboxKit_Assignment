@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import Grid from "@/components/Grid";
 import { DottedGlowBackground } from "../components/ui/dotted-glow-background";
 
-const socket = io("http://localhost:3001");
+const socket = io(import.meta.env.BACKEND_URL || "http://localhost:3001");
 
 const MapPage = () => {
   const [grid, setGrid] = useState([]);
