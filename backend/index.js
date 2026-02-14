@@ -9,6 +9,15 @@ import { eq } from "drizzle-orm";
 const app = express();
 app.use(cors());
 
+//render check
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    message: 'Territory Conquest API is running!',
+    timestamp: new Date().toISOString()
+  });
+});
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: { origin: "*" }
@@ -56,7 +65,7 @@ io.on("connection", async (socket) => {
   //     });
   //   }
   // });
-  
+
   //Capture logic - atomic update
   socket.on("capture", async ({ cellId, user, color }) => {
     try {
