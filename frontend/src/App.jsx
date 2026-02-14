@@ -1,16 +1,21 @@
-import { useState } from 'react'
-import './App.css'
-import {Button} from "@/components/ui/button";
+import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
+import MapPage from './pages/MapPage';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      // <Route path = "/" element={<LandingPage/>}>
+      //   <Route path = "/map" element={<MapPage/>}/>
+      // </Route>
+      <>      
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/map" element={<MapPage />} />
+      </>
+    )
+  )
   return (
-    <>
-      <h1>Hello, InboxKit!</h1>
-      <Button>sdg</Button>
-
-    </>
+    <RouterProvider router={router}/>
   )
 }
 
